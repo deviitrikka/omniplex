@@ -53,7 +53,7 @@ const CancelPage = () => {
                                         Contact Support
                                     </h3>
                                     <p className="text-slate-400 text-sm">
-                                        If you're experiencing issues, please don't hesitate to reach out to our team.
+                                        If you&apos;re experiencing issues, please don&apos;t hesitate to reach out to our team.
                                     </p>
                                 </div>
                             </div>

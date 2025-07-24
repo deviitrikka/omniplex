@@ -37,7 +37,7 @@ const SuccessPage = () => {
                     {/* "What's Next?" Section */}
                     <div className="border-t border-gray-700 pt-8">
                         <h2 className="text-xl font-semibold text-slate-200 mb-5">
-                            What's Next?
+                            What&apos;s Next?
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
                             {/* Getting Started Card */}
