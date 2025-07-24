@@ -5,6 +5,7 @@ import { Providers } from "./providers";
 import "katex/dist/katex.min.css";
 import "./globals.css";
 import Sidebar from "@/components/Sidebar/Sidebar";
+import { LayoutManager } from "@/components/LayoutManager";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -63,8 +64,8 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={inter.className}>
         <Providers>
-          <Sidebar />
-          {children}
+          {/* Use the imported client component to manage the layout */}
+          <LayoutManager>{children}</LayoutManager>
         </Providers>
       </body>
     </html>

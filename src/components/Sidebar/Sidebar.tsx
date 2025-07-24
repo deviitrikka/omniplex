@@ -27,6 +27,7 @@ import Plugin from "../../../public/svgs/sidebar/Plugin_Active.svg";
 import PluginInactive from "../../../public/svgs/sidebar/Plugin_Inactive.svg";
 import User from "../../../public/svgs/sidebar/User.svg";
 import Collapse from "../../../public/svgs/sidebar/Collapse.svg";
+import Checkout from "../Checkout/CheckoutButton";
 
 const Sidebar = () => {
   const router = useRouter();
@@ -48,24 +49,44 @@ const Sidebar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // useEffect(() => {
+  //   const handleClickOutside = (event: MouseEvent) => {
+  //     if (
+  //       sidebarRef.current &&
+  //       !sidebarRef.current.contains(event.target as Node)
+  //     ) {
+  //       closeSidebar();
+  //     }
+  //   };
+
+  //   if (width <= 512) {
+  //     document.addEventListener("mousedown", handleClickOutside);
+  //   }
+
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [sidebarRef, width, setIsSidebarOpen]);
+  // WITH THIS NEW CODE BLOCK
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        sidebarRef.current &&
-        !sidebarRef.current.contains(event.target as Node)
-      ) {
+      // If the sidebar is open and the click is not inside the sidebar, close it
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
         closeSidebar();
       }
     };
 
-    if (width <= 512) {
+    // We only need to listen for clicks when the sidebar is open
+    if (isSidebarOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
+    // The cleanup function removes the listener when the component unmounts
+    // or when the effect re-runs (i.e., when isSidebarOpen changes)
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [sidebarRef, width, setIsSidebarOpen]);
+  }, [isSidebarOpen]); // Effect now depends only on the sidebar's open/closed state
 
   useEffect(() => {
     if (!authState) {
@@ -109,20 +130,27 @@ const Sidebar = () => {
         <div onClick={toggleSidebar} className={styles.menu}>
           <Image priority={true} src={Menu} alt="Menu" width={24} height={24} />
         </div>
-        <div
-          className={styles.titleButton}
-          style={{ opacity: isSidebarOpen ? 0 : 1 }}
-          onClick={handleNewChat}
-        >
-          <Image
-            priority={true}
-            src={Pen}
-            alt={"Pen"}
-            width={20}
-            height={20}
-            className={styles.titleButtonIcon}
-          />
-          <p className={styles.titleButtonText}>New Chat</p>
+        {/* <<< CHANGED: Moved the Checkout button out of the "New Chat" button */}
+        <div className={styles.headerActions}>
+            <div
+                className={styles.titleButton}
+                style={{ opacity: isSidebarOpen ? 0 : 1 }}
+                onClick={handleNewChat}
+            >
+                <Image
+                    priority={true}
+                    src={Pen}
+                    alt={"Pen"}
+                    width={20}
+                    height={20}
+                    className={styles.titleButtonIcon}
+                />
+                <p className={styles.titleButtonText}>New Chat</p>
+            </div>
+            {/* <<< ADDED: A separate container for the checkout button in the header */}
+            {authState && <div className={styles.headerCheckout} style={{ opacity: isSidebarOpen ? 0 : 1 }}>
+                <Checkout/>
+            </div>}
         </div>
       </div>
       {isSidebarOpen && (

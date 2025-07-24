@@ -27,6 +27,14 @@
   align-items: flex-start;
   z-index: 2;
 }
+.headerActions{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.headerCheckout {
+    transition: opacity 0.3s ease-in-out;
+}
 .menu {
   margin-top: 6px;
   cursor: pointer;

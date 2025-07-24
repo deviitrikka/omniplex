@@ -14,10 +14,31 @@ import chatReducer from "./chatSlice";
 import authReducer from "./authSlice";
 import aiReducer from "./aiSlice";
 
+// dummy storage object that does nothing on the server
+const createNoopStorage = () => {
+  return {
+    getItem(_key: string) {
+      return Promise.resolve(null);
+    },
+    setItem(_key: string, value: any) {
+      return Promise.resolve(value);
+    },
+    removeItem(_key: string) {
+      return Promise.resolve();
+    },
+  };
+};
+
+//if we're on the browser or the server
+const storageToUse =
+  typeof window !== "undefined"
+    ? storage // If on browser, use real storage
+    : createNoopStorage();
+
 const persistConfig = {
   key: "root",
   version: 1,
-  storage,
+  storage : storageToUse,
   whitelist: ["chat", "auth", "ai"],
 };
 
